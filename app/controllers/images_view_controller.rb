@@ -20,8 +20,6 @@ class ImagesViewController < UITableViewController
     cell_identifier = 'photo_cell'
     cell = table_view.dequeueReusableCellWithIdentifier(cell_identifier) ||
       UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:cell_identifier)
-      #NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.example.com/exampleImage.png"]];
-      #yourCell.image = [UIImage imageWithData:data];
       url = photos[index_path.row]
       layout(cell.contentView, :root) do
         photo = subview(UIImageView, :reddit_photo)
@@ -31,7 +29,7 @@ class ImagesViewController < UITableViewController
   end
 
   def tableView(table_view, heightForRowAtIndexPath:index_path)
-    UIScreen.mainScreen.bounds.size.height / 1.7
+    180
   end
 
   private
