@@ -1,7 +1,7 @@
 describe 'ImagesViewController' do
 
   before do
-    @post = Post.new('test_image', 'test_image')
+    @post = Post.new('test_title', 'test_image')
     @posts = [@post]
     images_view_controller = ImagesViewController.alloc.init
     images_view_controller.stub!(:get_posts)
@@ -15,6 +15,10 @@ describe 'ImagesViewController' do
     it 'should add a photo to each cell' do
       image_views = views(UIImageView).select {|image_view| image_view.stylename == :reddit_picture}
       image_views.size.should == 1
+    end
+
+    it 'should add a title to each cell' do
+      view('test_title').should.not == nil
     end
   end
 end

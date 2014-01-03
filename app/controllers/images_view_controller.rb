@@ -38,9 +38,9 @@ class ImagesViewController < UITableViewController
   end
 
   private
+
   def posts
     @posts || []
-
   end
 
   def posts=(posts)
