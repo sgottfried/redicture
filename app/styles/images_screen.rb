@@ -1,5 +1,5 @@
 Teacup::Stylesheet.new :images_screen do
-  style :reddit_picture,
+  style :thumbnail,
     frame: [[80,0],[160, 160]]
   style :title,
     frame: [[5, 165], [310, 15]],
