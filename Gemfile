@@ -8,6 +8,7 @@ gem 'sugarcube', :require => [
    'sugarcube-nsdata',
    'sugarcube-foundation'
 ]
+
 gem "bubble-wrap", "~> 1.3.0"
 gem 'teacup', '~> 2.1.12'
-# Add your dependencies here:
+gem 'motion-stump'

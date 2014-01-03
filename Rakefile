@@ -4,6 +4,8 @@ require 'motion/project/template/ios'
 require 'teacup'
 require 'bubble-wrap/core'
 require 'bubble-wrap/http'
+require 'sugarcube-uikit'
+require 'motion-stump'
 
 begin
   require 'bundler'

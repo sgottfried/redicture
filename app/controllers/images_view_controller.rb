@@ -4,12 +4,7 @@ class ImagesViewController < UITableViewController
 
   def viewWillAppear(animated)
     super
-    BW::HTTP.get("http://imgur.com/r/all.json?perPage=10&page=1") do |response|
-      hash = BW::JSON.parse response.body.to_str
-      hash = hash['data']
-      self.posts = hash.map { |post| Post.new(post['title'], "http://i.imgur.com/#{post['hash']}b#{post['ext']}".nsurl.nsdata) }
-      self.tableView.reloadData
-    end
+    get_posts
   end
 
   def tableView(table_view, numberOfRowsInSection:section)
@@ -45,9 +40,19 @@ class ImagesViewController < UITableViewController
   private
   def posts
     @posts || []
+
   end
 
   def posts=(posts)
     @posts = posts
+  end
+
+  def get_posts
+    BW::HTTP.get("http://imgur.com/r/all.json?perPage=10&page=1") do |response|
+      hash = BW::JSON.parse response.body.to_str
+      hash = hash['data']
+      self.posts = hash.map { |post| Post.new(post['title'], "http://i.imgur.com/#{post['hash']}b#{post['ext']}".nsurl.nsdata) }
+      self.tableView.reloadData
+    end
   end
 end
