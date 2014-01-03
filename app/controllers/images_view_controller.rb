@@ -4,40 +4,50 @@ class ImagesViewController < UITableViewController
 
   def viewWillAppear(animated)
     super
-    BW::HTTP.get("http://imgur.com/r/all.json") do |response|
+    BW::HTTP.get("http://imgur.com/r/all.json?perPage=10&page=1") do |response|
       hash = BW::JSON.parse response.body.to_str
       hash = hash['data']
-      self.photos = hash.map { |thumbnail| "http://i.imgur.com/#{thumbnail['hash']}b#{thumbnail['ext']}".nsurl.nsdata }
+      self.posts = hash.map { |post| Post.new(post['title'], "http://i.imgur.com/#{post['hash']}b#{post['ext']}".nsurl.nsdata) }
       self.tableView.reloadData
     end
   end
 
   def tableView(table_view, numberOfRowsInSection:section)
-    photos.length
+    posts.length
   end
 
   def tableView(table_view, cellForRowAtIndexPath:index_path)
-    cell_identifier = 'photo_cell'
+    cell_identifier = 'post_cell'
     cell = table_view.dequeueReusableCellWithIdentifier(cell_identifier) ||
       UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:cell_identifier)
-      url = photos[index_path.row]
-      layout(cell.contentView, :root) do
-        photo = subview(UIImageView, :reddit_photo)
-        photo.image = url.uiimage
-      end
+
+    post = posts[index_path.row]
+
+    cell.contentView.subviews.each do |subview|
+      subview.removeFromSuperview
+      subview = nil
+    end
+
+    layout(cell.contentView, :root) do
+      picture = subview(UIImageView, :reddit_picture)
+      picture.image = post.picture.uiimage
+
+      title = subview(UILabel, :title)
+      title.text = post.title
+    end
     cell
   end
 
   def tableView(table_view, heightForRowAtIndexPath:index_path)
-    180
+    195
   end
 
   private
-  def photos
-    @photos || []
+  def posts
+    @posts || []
   end
 
-  def photos=(photos)
-    @photos = photos
+  def posts=(posts)
+    @posts = posts
   end
 end
